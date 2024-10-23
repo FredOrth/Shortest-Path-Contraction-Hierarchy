@@ -12,6 +12,10 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
+        if(args[0].equals("gradleTest")){
+            System.out.println("Yuppppi");
+        }
+
         // if(args[0].equals("Test")){
         //     InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
         // if (inputStream == null) {

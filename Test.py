@@ -22,4 +22,4 @@ def createRandomInput()->list[tuple[int]]:
     return listOfInputs
 
 if __name__ == '__main__':
-    
+    print()
