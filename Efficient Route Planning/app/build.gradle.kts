@@ -16,8 +16,10 @@ application {
     mainClass = "org.example.app.App"
 }
 
-jar {
+tasks.jar {
     manifest {
-        attributes 'Main-Class': 'Main.main'
+        attributes(
+            "Main-Class" to "Project.Main.Main"
+        )
     }
 }
