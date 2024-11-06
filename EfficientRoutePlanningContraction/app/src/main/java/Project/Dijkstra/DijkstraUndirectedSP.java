@@ -1,6 +1,7 @@
 package Project.Dijkstra;
 
 import Project.Graphs.*;
+import Project.Benchmarking.*;
 
 /******************************************************************************
  *  Compilation:  javac DijkstraUndirectedSP.java
@@ -69,7 +70,7 @@ import Project.Graphs.*;
  *  @author Kevin Wayne
  *  @author Nate Liu
  */
-public class DijkstraUndirectedSP {
+public class DijkstraUndirectedSP extends Benchmarkable{
     private double[] distTo;          // distTo[v] = distance  of shortest s->v path
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
@@ -283,6 +284,19 @@ public class DijkstraUndirectedSP {
         int V = distTo.length;
         if (v < 0 || v >= V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+    }
+
+
+    @Override
+    public void setup() {
+        // Reset distances, priority queues, and any other states as needed
+        for (int v = 0; v < G.V(); v++)
+        distTo[v] = Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public double applyAsDouble(int i) {
+        return computeShortestPath(0, 150000); // Replace 0 and G.V() - 1 with your test vertices
     }
 
     /**

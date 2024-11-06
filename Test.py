@@ -44,8 +44,10 @@ def benchmark1(input1: str, input2: str, algorithm:str, jar:str):
 
 
 INSTANCES: List[Tuple[str,str]] = [
-    ('Dijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
-    ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
+    # ('Dijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    # ('BiDijkstra', 'EfficientRoutePlanningContraction/app/build/libs/app.jar'),
+    ('BiDijkstraBenchmark', 'EfficientRoutePlanningContraction/app/build/libs/app.jar')
+    
 ]
 
 # if __name__ == '__main__':
@@ -64,4 +66,7 @@ INSTANCES: List[Tuple[str,str]] = [
 #                     }
 #                 )
 if __name__ == '__main__':
-    benchmark1("10","9382","Test","EfficientRoutePlanningContraction/app/build/libs/app.jar")
+    # benchmark1("10","9382","Test","EfficientRoutePlanningContraction/app/build/libs/app.jar")
+    for test, jar in INSTANCES: 
+        output = run_java(jar,test,"")
+        print(output)

@@ -4,8 +4,9 @@ import java.util.HashMap;
 
 import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
+import Project.Benchmarking.*;
 
-public class BidirectionalDijkstra {
+public class BidirectionalDijkstra extends Benchmarkable {
 
     private double[] distToS;          // distTo[v] = distance  of shortest s->v path
     private double[] distToT;
@@ -136,6 +137,31 @@ public class BidirectionalDijkstra {
 
     public int getCounterRelaxed(){
         return counterRelaxed;
+    }
+
+
+    @Override
+    public void setup() {
+        // Reset distances, priority queues, and any other states as needed
+        for (int v = 0; v < G.V(); v++) {
+            distToS[v] = Double.POSITIVE_INFINITY;
+            distToT[v] = Double.POSITIVE_INFINITY;
+        }
+
+        // Reset distanceTotal and counter
+        distanceTotal = Double.POSITIVE_INFINITY;
+        counterRelaxed = 0;
+
+        // Reset settled nodes
+        settled.clear();
+        for (int i = 0; i <= G.V(); i++) {
+            settled.put(i, false);
+        }
+    }
+
+    @Override
+    public double applyAsDouble(int i) {
+        return computeShortestPath(0, 150000); // Replace 0 and G.V() - 1 with your test vertices
     }
     
 }
