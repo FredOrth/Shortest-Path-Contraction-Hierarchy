@@ -1,6 +1,9 @@
 package Project.Dijkstra;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import Project.Graphs.Bag;
 import Project.Graphs.Edge;
@@ -82,6 +85,8 @@ public class LocalDijkstra {
     private boolean found;
     private int counter;
 
+    private Set<Integer> visited;
+
     /**
      * Computes a shortest-paths tree from the source vertex {@code s} to every
      * other vertex in the edge-weighted graph {@code G}.
@@ -106,11 +111,102 @@ public class LocalDijkstra {
         found = false;
 
         Bag<Edge> initialBag = G.adjacentEdges(s);
+
+        visited = new HashSet<>();
+
+        // add V to a visited SET, So we can basically skip it.
+        visited.add(s);
+
         
         for(Edge edge : initialBag){
+            int neighborVertex = edge.other(s);
+
+            neighborDijkstra(neighborVertex,s);
+            
             
         }
         
+        }
+
+        public void neighborDijkstra(int neighborvertex, int startVertex){
+            HashMap<Integer,Double> distToNeighbor = new HashMap<>();
+            distToNeighbor.put(neighborvertex, 0.0);
+            IndexMinPQ<Double> pqNeighbor = new IndexMinPQ<Double>(G.V());
+
+            Set<Integer> neighborsFound = new HashSet<>();
+
+            pqNeighbor.insert(neighborvertex,0.0);
+
+            while (!pqNeighbor.isEmpty()) {
+                int v = pqNeighbor.delMin();
+
+                if (visited.contains(v)) {
+                    continue;
+                }
+
+                if (v == startVertex) {
+                    continue;
+                }
+        
+                // Check if 'v' is another neighbor of 'startVertex' (excluding 'neighborvertex')
+                if (G.areAdjacent(startVertex, v) && v != neighborvertex) {
+                    // Compute the direct path through 'startVertex'
+                    double pathThroughStart = G.getEdgeWeight(neighborvertex, startVertex) + G.getEdgeWeight(startVertex, v);
+                    double distanceWithoutStart = distToNeighbor.get(v);
+        
+                    if (distanceWithoutStart > pathThroughStart) {
+                        // A shortcut is needed between 'neighborvertex' and 'v'
+                        this.counter++;
+                        addShortcut(neighborvertex, v, pathThroughStart);
+                    }
+                    // Mark neighbor as found
+                    neighborsFound.add(v);
+                    // Optionally, you can stop exploring paths from 'v' further
+                    continue;
+                }
+
+                for (Edge e : G.adj(v)) {
+                    
+                    int w = e.other(v);
+
+                    if (w == startVertex) {
+                        continue;
+                    }
+
+
+                    if (!distToNeighbor.containsKey(v)) {
+                        distToNeighbor.put(v, Double.POSITIVE_INFINITY);
+                    }
+                    if (!distToNeighbor.containsKey(w)) {
+                        distToNeighbor.put(w, Double.POSITIVE_INFINITY);
+                    }
+
+                    double newDist = distToNeighbor.get(v) + e.weight();
+
+                    if (newDist < distToNeighbor.get(w)) {
+                        distToNeighbor.put(w, newDist);
+                
+                        // Update the priority queue accordingly
+                        if (pqNeighbor.contains(w)) {
+                            pqNeighbor.decreaseKey(w, newDist);
+                        } else {
+                            pqNeighbor.insert(w, newDist);
+                        }
+                    }
+                    
+                }
+
+
+
+                
+            }
+
+            
+
+            
+
+
+
         }
         
     }
