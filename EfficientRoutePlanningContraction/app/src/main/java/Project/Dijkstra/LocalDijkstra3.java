@@ -99,7 +99,6 @@ public class LocalDijkstra3 {
                 }
             }
         }
-        System.out.println(value);
         return value;
     }
 
@@ -116,7 +115,6 @@ public class LocalDijkstra3 {
         for(Edge edge : bag){
             if(!visitedEndNodes.contains(edge.other(s)) && edge.other(s) != node){
                 set.add(edge.other(s));
-                System.out.println(edge.other(s));
             }
         }
         return set;
