@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import Project.Dijkstra.BidirectionalDijkstra;
-import Project.Dijkstra.DijkstraUndirectedSP;
-import Project.Dijkstra.LocalDijkstra3;
+import Project.Dijkstra.ContractionHierarchy;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
 
@@ -24,7 +23,7 @@ public class Main {
             if (args[i].equals("Test")) {
                 System.out.println("Running Test...");
                 // Load the graph from the resource
-                InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph");
+                InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }
@@ -32,8 +31,9 @@ public class Main {
 
                 // Test the graph using the existing logic
                 long start = System.nanoTime();
-                LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
-                ld.computeEdgeDifference(13);
+                // LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
+                // ld.computeEdgeDifference(13);
+                ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
                 long end = System.nanoTime();
                 System.out.println((end - start) / 1_000_000_000.0);
                 break; // If this argument was found, stop further checks
