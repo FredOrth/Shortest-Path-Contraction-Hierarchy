@@ -13,11 +13,14 @@ public class LocalDijkstra3 {
     private final EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
+    private HashSet<Integer> visitedEndNodes;
 
     public LocalDijkstra3(EdgeWeightedGraph G){
         this.G = G;
         distTo = new HashMap<>();
         pq = new IndexMinPQ<>(G.V());
+        visitedNodes = new HashSet<>();
+        visitedEndNodes = new HashSet<>();
     }
 
     public int computeEdgeDifference(int s){
@@ -26,9 +29,8 @@ public class LocalDijkstra3 {
 
         //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
+        visitedEndNodes.clear();
 
-        HashSet<Integer> visitedEndNodes = new HashSet<>();
-        visitedNodes = new HashSet<>();
 
         for(Edge edge : initialBag){
             int startNode = edge.other(s);
@@ -94,8 +96,10 @@ public class LocalDijkstra3 {
         Double value = 0.0;
         for(Edge edge2 : bag){
             if(!edge2.equals(edge)){
-                if(value < edge.weight() + edge2.weight()){
-                    value = edge.weight() + edge2.weight();
+                Double edgeWeight = edge.weight();
+                Double edgeWeight2 = edge2.weight();
+                if(value < edgeWeight + edgeWeight2){
+                    value = edgeWeight + edgeWeight2;
                 }
             }
         }
@@ -104,6 +108,7 @@ public class LocalDijkstra3 {
 
      //This will reset all collections
      private void reset(){
+        
         distTo.clear();
         IndexMinPQ<Double> newPq = new IndexMinPQ<>(G.V());            
         pq = newPq;   
