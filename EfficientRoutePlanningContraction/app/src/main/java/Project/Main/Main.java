@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import Project.Dijkstra.BidirectionalDijkstra;
+import Project.Dijkstra.ContractionHierarchy;
 import Project.Dijkstra.DijkstraUndirectedSP;
 import Project.Dijkstra.LocalDijkstra3;
 import Project.Graphs.GraphBuilder;
@@ -21,8 +22,7 @@ public class Main {
             
             long start = System.nanoTime();
             LocalDijkstra3 ld = new LocalDijkstra3(graphResultTest.getGraph());
-            ld.computeEdgeDifference(13);
-            // ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
+            ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
             long end = System.nanoTime();
             System.out.println((end - start) / 1_000_000_000.0);
             
