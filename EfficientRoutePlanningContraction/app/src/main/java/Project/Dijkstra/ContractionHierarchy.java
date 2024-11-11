@@ -11,36 +11,50 @@ public class ContractionHierarchy {
     public ContractionHierarchy(EdgeWeightedGraph graph){
         this.graph = graph;
         this.PQ = new IndexMinPQ<>(graph.V());
+        System.out.println("1");
         this.lazyCounter = 0;
         ld = new LocalDijkstra3(graph);
+        System.out.println("2");
         createContractionHierarchy();
+        System.out.println("3");
         lazyUpdate();
     }
 
     private void createContractionHierarchy(){
         for(int i = 0; i<graph.V(); i++){
             PQ.insert(i, ld.computeEdgeDifference(i));
+            System.out.println(i);
         }
     }
 
     private void lazyUpdate(){
         int counter = 0;
+        int testCounter = 0;
+        System.out.println("4");
         while(!PQ.isEmpty()){
             if(counter == 50){
                 //reset PQ
                 IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
-                PQ = newPq;
+                this.PQ = newPq;
                 createContractionHierarchy();
             }
             int leastNode = PQ.delMin();
             int nodeDifference = ld.computeEdgeDifference(leastNode);
-            if(nodeDifference <= PQ.minKey()){
+            if(PQ.size() == 0){
+                testCounter++;
+                //write method
+            }
+            else if(nodeDifference <= PQ.minKey()){
                 //Write method with with leastNode and nodeDifference
+                testCounter++;
+                System.out.println(testCounter);
+            
             }else{
                 PQ.insert(leastNode, nodeDifference);
                 counter++;
             }
         }
+        System.out.println("This is the testCounter my homies: " + testCounter);
     }
 }
 
