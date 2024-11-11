@@ -58,13 +58,13 @@ public class BidirectionalDijkstraTest {
 
         // relaxes each time the method is called, meaning. ITR1 s: 0 - 1, 0 - 2. t: 5 - 4.
         // ITR2 s: 1 - 2, 1 - 3. t: 4 - 3. ITR3 s: 2 - 3, t: 3 - 1, 3 - 2.
-        int expectedRelaxCounter = 7;
+        int expectedRelaxCounter = 9;  
 
         assertEquals(expectedRelaxCounter, relaxations);
     }
 
     @Test
-    public void testUnreachableNode() {
+    void testUnreachableNode() {
         //create graph object with unreachable nodes
         EdgeWeightedGraph disconnectedGraph = new EdgeWeightedGraph(6);
         disconnectedGraph.addEdge(new Edge(0, 1, 0.5));
@@ -75,11 +75,11 @@ public class BidirectionalDijkstraTest {
         double shortestPath = bidirectionalDijkstra.computeShortestPath(0, 3);
 
         // Expecting that 0 to 3 is unreachable, hence infinity
-        assertNotEquals(Double.POSITIVE_INFINITY, shortestPath, 0.001);
+        assertEquals(Double.POSITIVE_INFINITY, shortestPath, 0.001);
     }
 
     @Test
-    public void testSymmetryInResults() {
+    void testSymmetryInResults() {
         // Ensure the bidirectional Dijkstra produces the same result when source and target are swapped
         BidirectionalDijkstra bidirectionalDijkstra = new BidirectionalDijkstra(G);
         
