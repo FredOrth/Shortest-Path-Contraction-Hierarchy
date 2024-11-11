@@ -7,18 +7,18 @@ import Project.Graphs.EdgeWeightedGraph;
 
 public class BidirectionalDijkstra {
 
-    private double[] distToS;          // distTo[v] = distance  of shortest s->v path
-    private double[] distToT;
-    private double[] distTo;
+    private int[] distToS;          // distTo[v] = distance  of shortest s->v path
+    private int[] distToT;
+    private int[] distTo;
     private int counterRelaxed;
 
 
     private Edge[] edgeTo;            // edgeTo[v] = last edge on shortest s->v path
 
 
-    private IndexMinPQ<Double> pqs;    // priority queue of vertices
-    private IndexMinPQ<Double> pqt;    // priority queue of vertices
-    private IndexMinPQ<Double> pq;
+    private IndexMinPQ<Integer> pqs;    // priority queue of vertices
+    private IndexMinPQ<Integer> pqt;    // priority queue of vertices
+    private IndexMinPQ<Integer> pq;
 
 
     private EdgeWeightedGraph G;
@@ -29,9 +29,9 @@ public class BidirectionalDijkstra {
 
      public BidirectionalDijkstra(EdgeWeightedGraph G) {
         this.G = G;
-        distToS = new double[G.V()];
-        distToT = new double[G.V()];
-        distTo = new double[G.V()];
+        distToS = new int[G.V()];
+        distToT = new int[G.V()];
+        distTo = new int[G.V()];
         counterRelaxed = 0;
 
         edgeTo = new Edge[G.V()]; // lets see if we will use it
@@ -51,19 +51,19 @@ public class BidirectionalDijkstra {
         validateVertex(t);
 
         for (int v = 0; v < G.V(); v++){
-            distToS[v] = Double.POSITIVE_INFINITY;
-            distToT[v] = Double.POSITIVE_INFINITY;
+            distToS[v] = Integer.MAX_VALUE;
+            distToT[v] = Integer.MAX_VALUE;
         }
 
-        distToS[s] = 0.0;
-        distToT[t] = 0.0;
+        distToS[s] = 0;
+        distToT[t] = 0;
 
         pqs = new IndexMinPQ<>(G.V());
         pqt = new IndexMinPQ<>(G.V());
         pq = new IndexMinPQ<>(G.V());
 
-        pqs.insert(s,0.0);
-        pqt.insert(t, 0.0);
+        pqs.insert(s,0);
+        pqt.insert(t, 0);
 
 
         while(!(pqs.isEmpty()) || !(pqt.isEmpty())){
