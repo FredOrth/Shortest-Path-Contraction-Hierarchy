@@ -13,7 +13,7 @@ import Project.Graphs.GraphBuilderResult;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph");
+        if(args[0].equals("ContractionTest")){InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph");
             if (inputStreamTest == null) {
                 throw new FileNotFoundException("Resource 'denmark.graph' not found in classpath");
             }
@@ -24,6 +24,7 @@ public class Main {
             ContractionHierarchy cont = new ContractionHierarchy(graphResultTest.getGraph());
             long end = System.nanoTime();
             System.out.println((end - start) / 1_000_000_000.0);
+        }
             
         if(args[0].equals("Test")){
             InputStream inputStream = Main.class.getResourceAsStream("/denmark.graph");
