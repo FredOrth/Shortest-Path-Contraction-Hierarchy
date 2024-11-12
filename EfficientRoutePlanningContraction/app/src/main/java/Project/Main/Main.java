@@ -7,6 +7,7 @@ import java.util.Scanner;
 import Project.Contraction.ContractionHierarchy;
 import Project.Dijkstra.BidirectionalDijkstra;
 import Project.Dijkstra.DijkstraUndirectedSP;
+import Project.Dijkstra.LocalDijkstra4;
 import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.GraphBuilder;
 import Project.Graphs.GraphBuilderResult;
@@ -14,6 +15,13 @@ import Project.Graphs.GraphBuilderResult;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
+        InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///denmark.graph /Small_graph_for_test.graph
+                if (inputStreamTest == null) {
+                    throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
+                }
+                GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+        LocalDijkstra4 ld = new LocalDijkstra4(graphResultTest.getGraph());
+        ld.computeEdgeDifference(10, false);
         // Make sure there are enough arguments before accessing them
         if (args.length == 0) {
             System.out.println("No arguments provided. Please specify 'Test', 'Dijkstra', or 'BiDijkstra'.");
@@ -25,11 +33,11 @@ public class Main {
             if (args[i].equals("Test")) {
                 System.out.println("Running Test...");
                 // Load the graph from the resource
-                InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///denmark.graph /Small_graph_for_test.graph
-                if (inputStreamTest == null) {
-                    throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
-                }
-                GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
+                // InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///denmark.graph /Small_graph_for_test.graph
+                // if (inputStreamTest == null) {
+                //     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
+                // }
+                // GraphBuilderResult graphResultTest = GraphBuilder.buildGraphFromInputStream(inputStreamTest);
 
                 // Test the graph using the existing logic
                 long start = System.nanoTime();
