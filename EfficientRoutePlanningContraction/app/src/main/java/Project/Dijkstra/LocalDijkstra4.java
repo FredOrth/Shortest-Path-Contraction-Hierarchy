@@ -61,6 +61,8 @@ public class LocalDijkstra4 {
                 if(distTo.get(leastNode) > highestValue){
                     int plus = endNodes.size();
 
+                    if(insertEdges){
+
                     int[] arr = new int[plus];
                     int arrayCounter = 0;
                     for(Integer integer : endNodes){
@@ -79,6 +81,7 @@ public class LocalDijkstra4 {
                             G.writeEdge(edgeString);
                         }
                     }
+                }
 
                     // Iterator<Integer> iterator = endNodes.iterator();
                     //     while (iterator.hasNext()) {
@@ -144,11 +147,7 @@ public class LocalDijkstra4 {
             reset();
         }
 
-        // if(insertEdges){
-        //     for(Edge edge : initialBag){
-        //         //Delete edge
-        //     }
-        // }
+        G.contractVertex(s);
         //return
         return counter-initialBag.size(); 
     }
