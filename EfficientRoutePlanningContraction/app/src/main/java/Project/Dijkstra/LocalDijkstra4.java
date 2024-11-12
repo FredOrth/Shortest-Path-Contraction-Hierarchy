@@ -62,25 +62,29 @@ public class LocalDijkstra4 {
                 if(distTo.get(leastNode) > highestValue){
                     int plus = endNodes.size();
 
-                    Iterator<Integer> iterator = endNodes.iterator();
-                        while (iterator.hasNext()) {
+                        if (insertEdges) {
+                            Iterator<Integer> iterator = endNodes.iterator();
+                            while (iterator.hasNext()) {
 
-                            Integer neighbor = iterator.next();
+                                Integer neighbor = iterator.next();
 
-                            // Remove the current element using the iterator's remove method
-                            iterator.remove();
+                                // Remove the current element using the iterator's remove method
+                                iterator.remove();
 
-                            // Calculate the shortcut weight
-                            int shortcutWeight = edge.weight() + findEdge(initialBag, neighbor).weight();
+                                // Calculate the shortcut weight
+                                int shortcutWeight = edge.weight() + findEdge(initialBag, neighbor).weight();
 
-                            Edge shortCut = new Edge(startNode, neighbor, shortcutWeight);
+                                Edge shortCut = new Edge(startNode, neighbor, shortcutWeight);
 
-                            // Add the shortcut edge to the graph
-                            G.addEdge(shortCut); // 's' as the contracted node label
-                            String edgeString = startNode + " " + neighbor + " " + shortcutWeight;
-                            G.writeEdge(edgeString);
+                                // Add the shortcut edge to the graph
+                                G.addEdge(shortCut); // 's' as the contracted node label
+                                String edgeString = startNode + " " + neighbor + " " + shortcutWeight;
+                                G.writeEdge(edgeString);
 
+                            }
+                            
                         }
+                
 
 
                     counter = counter + plus;
