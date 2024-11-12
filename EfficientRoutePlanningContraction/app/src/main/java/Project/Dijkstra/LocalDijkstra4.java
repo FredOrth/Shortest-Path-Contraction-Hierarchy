@@ -192,7 +192,7 @@ public class LocalDijkstra4 {
         HashSet<Integer> set = new HashSet<>();
         for(Edge edge : bag){
             int otherNode = edge.other(s);
-            if(!visitedEndNodes.contains(otherNode) && otherNode != node){
+            if(!visitedEndNodes.contains(otherNode) && otherNode != node && !G.isContracted(otherNode)){
                 set.add(otherNode);
             }
         }
@@ -202,7 +202,7 @@ public class LocalDijkstra4 {
     private void fillMinPq(int node){
         Bag<Edge> bag = G.adjacentEdges(node);
             for(Edge edge2 : bag){
-                if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s){
+                if(!visitedNodes.contains(edge2.other(node)) && edge2.other(node) != s && !G.isContracted(edge2.other(node))){
                 //If value is contained in the distTo we only decrease it if a new shorter path is found
                 if(pq.contains(edge2.other(node))){
                     int weight = distTo.get(node) + edge2.weight();
