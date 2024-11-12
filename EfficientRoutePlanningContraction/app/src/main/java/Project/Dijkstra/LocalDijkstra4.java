@@ -31,6 +31,9 @@ public class LocalDijkstra4 {
         visitedNodes = new HashSet<>();
 
         for(Edge edge : initialBag){
+            if(G.isContracted(edge.other(s))){
+                continue;
+            }
             int startNode = edge.other(s);
             distTo.put(startNode, 0);
             int nodeCounter = 0;
