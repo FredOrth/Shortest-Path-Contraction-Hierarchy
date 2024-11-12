@@ -25,7 +25,7 @@ public class Main {
             if (args[i].equals("Test")) {
                 System.out.println("Running Test...");
                 // Load the graph from the resource
-                InputStream inputStreamTest = Main.class.getResourceAsStream("/denmark.graph"); ///Small_graph_for_test.graph
+                InputStream inputStreamTest = Main.class.getResourceAsStream("/Small_graph_for_test.graph"); ///denmark.graph /Small_graph_for_test.graph
                 if (inputStreamTest == null) {
                     throw new FileNotFoundException("Resource 'Small_graph_for_test.graph' not found in classpath");
                 }

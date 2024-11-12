@@ -146,8 +146,8 @@ public class LocalDijkstra4 {
             }
             reset();
         }
-
-        G.contractVertex(s);
+        if(insertEdges){
+        G.contractVertex(s);}
         //return
         return counter-initialBag.size(); 
     }
