@@ -2,6 +2,7 @@ package Project.Dijkstra;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import Project.Graphs.Bag;
 import Project.Graphs.Edge;
@@ -10,7 +11,7 @@ import Project.Graphs.EdgeWeightedGraph;
 public class LocalDijkstra4 {
     private HashMap<Integer, Integer> distTo;          // distTo[v] = distance  of shortest s->v path
     private IndexMinPQ<Integer> pq;    // priority queue of vertices
-    private final EdgeWeightedGraph G;
+    private EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
 
@@ -20,7 +21,7 @@ public class LocalDijkstra4 {
         pq = new IndexMinPQ<>(G.V());
     }
 
-    public int computeEdgeDifference(int s){
+    public int computeEdgeDifference(int s,boolean insertEdges){
         this.s = s;
         int counter = 0;
 
@@ -43,7 +44,7 @@ public class LocalDijkstra4 {
             visitedNodes.add(startNode);
 
             //Find the highest value between s and node we are searching for
-            int highestValue = getHighestValue(initialBag,edge);
+            // int highestValue = getHighestValue(initialBag,edge);
 
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
@@ -57,22 +58,30 @@ public class LocalDijkstra4 {
                 //Add to visited nodes
                 visitedNodes.add(leastNode);
 
-                //Check if the path just found is more expensive than highest value and break if so
-                if(distTo.get(leastNode) > highestValue){
-                    int plus = endNodes.size();
-                    counter = counter + plus;
-                    break;
-                }
-
-                //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
                     endNodes.remove(leastNode);
-                    //If path is greater than weight path going through s increment counter
-                    if(distTo.get(leastNode) > edge.weight() + findEdge(initialBag, leastNode).weight()){
-                    counter++;
-                }
+            
+                    // Calculate the path through s (the contracted node)
+                    int pathThroughS = edge.weight() + findEdge(initialBag, leastNode).weight();
+            
+                    // Get the shortest path found to leastNode
+                    int shortestPath = distTo.get(leastNode);
+            
+                    // If the shortest path found is longer than the path through s
+                    if(shortestPath > pathThroughS){
+                        if(insertEdges){
+                            // Add a shortcut edge between startNode and leastNode
+                            int shortcutWeight = pathThroughS;
+                            Edge shortCut = new Edge(startNode, leastNode, shortcutWeight);
+                            G.addEdge(shortCut);
+                            String edgeString = startNode + " " + leastNode + " " + shortcutWeight;
+                            G.writeEdge(edgeString);
+                        }
+                        counter++;
+                    }
                     nodeCounter++;
                 }
+
                 //Fill minpq from least node
                 fillMinPq(leastNode);
             }
