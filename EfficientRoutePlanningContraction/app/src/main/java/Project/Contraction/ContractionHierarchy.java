@@ -52,6 +52,7 @@ public class ContractionHierarchy {
                 IndexMinPQ<Integer> newPq = new IndexMinPQ<>(graph.V());
                 this.PQ = newPq;
                 createContractionHierarchy();
+                counter=0;
             }
 
             
@@ -65,7 +66,7 @@ public class ContractionHierarchy {
                 // testCounter++;
                 //write method
             }
-
+            
             else if(updatedPriority > currentPriority){
                 PQ.changeKey(leastNode,updatedPriority);
                 counter++;
@@ -73,8 +74,6 @@ public class ContractionHierarchy {
             }else{
                 PQ.delMin();
                 contractNode(leastNode);
-
-                
 
                 for(Edge e : graph.adjacentEdges(leastNode)){
                     int neighbor = e.other(leastNode);
@@ -104,7 +103,7 @@ public class ContractionHierarchy {
         ld.computeEdgeDifference(node, true);
     }
 
-    private void assignRank(int node) {
+    public void assignRank(int node) {
         rank[node] = rankCounter;
         rankCounter++;
     }
