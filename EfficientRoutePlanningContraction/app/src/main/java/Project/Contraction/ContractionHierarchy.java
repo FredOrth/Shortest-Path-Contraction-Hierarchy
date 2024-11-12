@@ -28,7 +28,10 @@ public class ContractionHierarchy {
 
     private void lazyUpdate(){
         int counter = 0;
-        int testCounter = 0;
+        // int testCounter = 0;
+
+        int rank = 0;
+
         while(!PQ.isEmpty()){
             if(counter == 50){
                 //reset PQ
@@ -36,23 +39,49 @@ public class ContractionHierarchy {
                 this.PQ = newPq;
                 createContractionHierarchy();
             }
-            int leastNode = PQ.delMin();
-            int nodeDifference = ld.computeEdgeDifference(leastNode);
+
+            
+            int leastNode = PQ.minIndex();
+            int currentPriority = PQ.minKey();
+
+
+            int updatedPriority = ld.computeEdgeDifference(leastNode);
+
             if(PQ.size() == 0){
-                testCounter++;
+                // testCounter++;
                 //write method
             }
-            else if(nodeDifference <= PQ.minKey()){
-                //Write method with with leastNode and nodeDifference
-                testCounter++;
-                System.out.println(testCounter);
-            
-            }else{
-                PQ.insert(leastNode, nodeDifference);
+            else if(updatedPriority > currentPriority){
+                PQ.changeKey(leastNode,updatedPriority);
                 counter++;
+                continue;
+            }else{
+                PQ.delMin();
+                contractNode(leastNode,rank++);
+
+
+                for(int neighbor : graph.getNeighbors(leastNode)){
+                    if (!graph.isContracted(neighbor)) {
+                        int newPriority = ld.computeEdgeDifference(neighbor);
+                        if (PQ.contains(neighbor)) {
+                            PQ.changeKey(neighbor, newPriority);
+                        } else {
+                            PQ.insert(neighbor, newPriority);
+                        }
+                    }
+                }
+
+                
             }
         }
-        System.out.println("This is the testCounter my homies: " + testCounter);
+        
+    }
+
+
+    public void contractNode(int node,int rank){
+        
+
+
     }
 }
 
