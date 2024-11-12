@@ -11,12 +11,9 @@ public class ContractionHierarchy {
     public ContractionHierarchy(EdgeWeightedGraph graph){
         this.graph = graph;
         this.PQ = new IndexMinPQ<>(graph.V());
-        System.out.println("1");
         this.lazyCounter = 0;
         ld = new LocalDijkstra3(graph);
-        System.out.println("2");
         createContractionHierarchy();
-        System.out.println("3");
         lazyUpdate();
     }
 
@@ -30,7 +27,6 @@ public class ContractionHierarchy {
     private void lazyUpdate(){
         int counter = 0;
         int testCounter = 0;
-        System.out.println("4");
         while(!PQ.isEmpty()){
             if(counter == 50){
                 //reset PQ
