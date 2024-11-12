@@ -8,15 +8,9 @@ import Project.Graphs.Edge;
 import Project.Graphs.EdgeWeightedGraph;
 
 public class LocalDijkstra4 {
-<<<<<<< HEAD
-    private HashMap<Integer, Integer> distTo;          // distTo[v] = distance  of shortest s->v path
-    private IndexMinPQ<Integer> pq;    // priority queue of vertices
-    private EdgeWeightedGraph G;
-=======
     private HashMap<Integer, Double> distTo;          // distTo[v] = distance  of shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
-    private final EdgeWeightedGraph G;
->>>>>>> main
+    private EdgeWeightedGraph G;
     private HashSet<Integer> visitedNodes;
     private int s;
 
@@ -28,7 +22,7 @@ public class LocalDijkstra4 {
 
     public int computeEdgeDifference(int s,boolean insertEdges){
         this.s = s;
-        int counter = 0;    
+        int counter = 0;
 
         //Neighbouring nodes to s (start node)
         Bag<Edge> initialBag = G.adjacentEdges(s);
@@ -82,7 +76,7 @@ public class LocalDijkstra4 {
                     for(int i = 0; i<arr.length; i++){
                         for(int j = i+1; j<arr.length; j++){
                             //calculate weight based on the nodes at arr j and i and create and add shortcut edge
-                            int weight = findEdge(initialBag, arr[j]).weight() + findEdge(initialBag, arr[i]).weight();
+                            double weight = findEdge(initialBag, arr[j]).weight() + findEdge(initialBag, arr[i]).weight();
                             Edge shortCut = new Edge(arr[i], arr[j], weight);
                             G.addEdge(shortCut);
                             //Create edgeString and print to txt file
@@ -134,7 +128,7 @@ public class LocalDijkstra4 {
                             // G.writeEdge(edgeString);
 
                             //Find value of edge in question and add the value of edge from least node to s
-                            int shortCutWeight = edge.weight() + findEdge(initialBag, leastNode).weight();
+                            double shortCutWeight = edge.weight() + findEdge(initialBag, leastNode).weight();
                             //Create and add edge
                             Edge shortCut = new Edge(leastNode, startNode, shortCutWeight);
                                 G.addEdge(shortCut);
@@ -170,31 +164,17 @@ public class LocalDijkstra4 {
         return null;
     }
 
-    // private int getHighestValue(Bag<Edge> bag, Edge edge){
-    //     int value = 0;
-    //     for(Edge edge2 : bag){
-    //         if(!edge2.equals(edge)){
-    //             int potentialHighestValue = edge.weight() + edge2.weight();
-    //             if(value < potentialHighestValue){
-    //                 value = potentialHighestValue;
-    //             }
-    //         }
-    //     }
-    //     return value;
-    // }
-
-    private double getHighestValue(Bag<Edge> bag, Edge currentEdge) {
-        double highestValue = currentEdge.weight(); // Start with the weight of the current edge
-
-        for (Edge edge : bag) {
-            if (!edge.equals(currentEdge)) { // Avoid comparing the same edge
-                double potentialHighestValue = edge.weight();
-                if (highestValue < potentialHighestValue) {
-                    highestValue = potentialHighestValue;
+    private double getHighestValue(Bag<Edge> bag, Edge edge){
+        double value = 0.0;
+        for(Edge edge2 : bag){
+            if(!edge2.equals(edge)){
+                double potentialHighestValue = edge.weight() + edge2.weight();
+                if(value < potentialHighestValue){
+                    value = potentialHighestValue;
                 }
             }
         }
-        return highestValue;
+        return value;
     }
 
      //This will reset all collections
