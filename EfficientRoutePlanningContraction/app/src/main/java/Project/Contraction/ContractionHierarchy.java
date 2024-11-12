@@ -2,12 +2,10 @@ package Project.Contraction;
 
 import java.util.Arrays;
 
-import com.google.common.graph.Graph;
-
 import Project.Dijkstra.IndexMinPQ;
 import Project.Dijkstra.LocalDijkstra4;
-import Project.Graphs.EdgeWeightedGraph;
 import Project.Graphs.Edge;
+import Project.Graphs.EdgeWeightedGraph;
 
 public class ContractionHierarchy {
     private IndexMinPQ<Integer> PQ;
@@ -36,7 +34,6 @@ public class ContractionHierarchy {
     private void createContractionHierarchy(){
         for(int i = 0; i<graph.V(); i++){
             PQ.insert(i, ld.computeEdgeDifference(i,false));
-            
         }
     }
 

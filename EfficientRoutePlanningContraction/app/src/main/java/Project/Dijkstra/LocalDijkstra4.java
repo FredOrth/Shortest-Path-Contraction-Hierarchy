@@ -46,7 +46,7 @@ public class LocalDijkstra4 {
             visitedNodes.add(startNode);
 
             //Find the highest value between s and node we are searching for
-            int highestValue = getHighestValue(initialBag,edge);
+            // int highestValue = getHighestValue(initialBag,edge);
 
             HashSet<Integer> endNodes = initializeSet(initialBag, startNode, visitedEndNodes);
             fillMinPq(startNode);
@@ -61,55 +61,55 @@ public class LocalDijkstra4 {
                 visitedNodes.add(leastNode);
 
                 //Check if the path just found is more expensive than highest value and break if so
-                if(distTo.get(leastNode) > highestValue){
-                    int plus = endNodes.size();
+                // if(distTo.get(leastNode) > highestValue){
+                //     int plus = endNodes.size();
 
-                    if(insertEdges){
+                //     if(insertEdges){
 
-                    int[] arr = new int[plus];
-                    int arrayCounter = 0;
-                    for(Integer integer : endNodes){
-                        arr[arrayCounter] = integer;
-                        arrayCounter++;
-                    }
+                //     int[] arr = new int[plus];
+                //     int arrayCounter = 0;
+                //     for(Integer integer : endNodes){
+                //         arr[arrayCounter] = integer;
+                //         arrayCounter++;
+                //     }
 
-                    for(int i = 0; i<arr.length; i++){
-                        for(int j = i+1; j<arr.length; j++){
-                            //calculate weight based on the nodes at arr j and i and create and add shortcut edge
-                            int weight = findEdge(initialBag, arr[j]).weight() + findEdge(initialBag, arr[i]).weight();
-                            Edge shortCut = new Edge(arr[i], arr[j], weight);
-                            G.addEdge(shortCut);
-                            //Create edgeString and print to txt file
-                            String edgeString = arr[i] + " " + arr[j] + " " + weight;
-                            G.writeEdge(edgeString);
-                        }
-                    }
-                }
+                //     for(int i = 0; i<arr.length; i++){
+                //         for(int j = i+1; j<arr.length; j++){
+                //             //calculate weight based on the nodes at arr j and i and create and add shortcut edge
+                //             int weight = findEdge(initialBag, arr[j]).weight() + findEdge(initialBag, arr[i]).weight();
+                //             Edge shortCut = new Edge(arr[i], arr[j], weight);
+                //             G.addEdge(shortCut);
+                //             //Create edgeString and print to txt file
+                //             String edgeString = arr[i] + " " + arr[j] + " " + weight;
+                //             G.writeEdge(edgeString);
+                //         }
+                //     }
+                // }
 
-                    // Iterator<Integer> iterator = endNodes.iterator();
-                    //     while (iterator.hasNext()) {
+                //     // Iterator<Integer> iterator = endNodes.iterator();
+                //     //     while (iterator.hasNext()) {
 
-                    //         Integer neighbor = iterator.next();
+                //     //         Integer neighbor = iterator.next();
 
-                    //         // Remove the current element using the iterator's remove method
-                    //         iterator.remove();
+                //     //         // Remove the current element using the iterator's remove method
+                //     //         iterator.remove();
 
-                    //         // Calculate the shortcut weight
-                    //         int shortcutWeight = edge.weight() + findEdge(initialBag, neighbor).weight();
+                //     //         // Calculate the shortcut weight
+                //     //         int shortcutWeight = edge.weight() + findEdge(initialBag, neighbor).weight();
 
-                    //         Edge shortCut = new Edge(startNode, neighbor, shortcutWeight);
+                //     //         Edge shortCut = new Edge(startNode, neighbor, shortcutWeight);
 
-                    //         // Add the shortcut edge to the graph
-                    //         G.addEdge(shortCut); // 's' as the contracted node label
-                    //         String edgeString = startNode + " " + neighbor + " " + shortcutWeight;
-                    //         G.writeEdge(edgeString);
+                //     //         // Add the shortcut edge to the graph
+                //     //         G.addEdge(shortCut); // 's' as the contracted node label
+                //     //         String edgeString = startNode + " " + neighbor + " " + shortcutWeight;
+                //     //         G.writeEdge(edgeString);
 
-                        // }
+                //         // }
 
 
-                    counter = counter + plus;
-                    break;
-                }
+                //     counter = counter + plus;
+                //     break;
+                // }
                 
                 //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
