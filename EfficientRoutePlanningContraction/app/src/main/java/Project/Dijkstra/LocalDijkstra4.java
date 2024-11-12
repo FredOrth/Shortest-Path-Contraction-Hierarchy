@@ -2,7 +2,6 @@ package Project.Dijkstra;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import Project.Graphs.Bag;
 import Project.Graphs.Edge;
@@ -62,35 +61,50 @@ public class LocalDijkstra4 {
                 if(distTo.get(leastNode) > highestValue){
                     int plus = endNodes.size();
 
-                        if (insertEdges) {
-                            Iterator<Integer> iterator = endNodes.iterator();
-                            while (iterator.hasNext()) {
+                    int[] arr = new int[plus];
+                    int arrayCounter = 0;
+                    for(Integer integer : endNodes){
+                        arr[arrayCounter] = integer;
+                        arrayCounter++;
+                    }
 
-                                Integer neighbor = iterator.next();
-
-                                // Remove the current element using the iterator's remove method
-                                iterator.remove();
-
-                                // Calculate the shortcut weight
-                                int shortcutWeight = edge.weight() + findEdge(initialBag, neighbor).weight();
-
-                                Edge shortCut = new Edge(startNode, neighbor, shortcutWeight);
-
-                                // Add the shortcut edge to the graph
-                                G.addEdge(shortCut); // 's' as the contracted node label
-                                String edgeString = startNode + " " + neighbor + " " + shortcutWeight;
-                                G.writeEdge(edgeString);
-
-                            }
-                            
+                    for(int i = 0; i<arr.length; i++){
+                        for(int j = i+1; j<arr.length; j++){
+                            //calculate weight based on the nodes at arr j and i and create and add shortcut edge
+                            int weight = findEdge(initialBag, arr[j]).weight() + findEdge(initialBag, arr[i]).weight();
+                            Edge shortCut = new Edge(arr[i], arr[j], weight);
+                            G.addEdge(shortCut);
+                            //Create edgeString and print to txt file
+                            String edgeString = arr[i] + " " + arr[j] + " " + weight;
+                            G.writeEdge(edgeString);
                         }
-                
+                    }
+
+                    // Iterator<Integer> iterator = endNodes.iterator();
+                    //     while (iterator.hasNext()) {
+
+                    //         Integer neighbor = iterator.next();
+
+                    //         // Remove the current element using the iterator's remove method
+                    //         iterator.remove();
+
+                    //         // Calculate the shortcut weight
+                    //         int shortcutWeight = edge.weight() + findEdge(initialBag, neighbor).weight();
+
+                    //         Edge shortCut = new Edge(startNode, neighbor, shortcutWeight);
+
+                    //         // Add the shortcut edge to the graph
+                    //         G.addEdge(shortCut); // 's' as the contracted node label
+                    //         String edgeString = startNode + " " + neighbor + " " + shortcutWeight;
+                    //         G.writeEdge(edgeString);
+
+                        // }
 
 
                     counter = counter + plus;
                     break;
                 }
-
+                
                 //Check if node found is an endnode
                 if(endNodes.contains(leastNode)){
                     endNodes.remove(leastNode);
@@ -101,12 +115,20 @@ public class LocalDijkstra4 {
                         // i edit between these two 1)
                         if(insertEdges){
                             //PHYSICALLY ADD EDGE HERE, but between what?
-                            int shortcutWeight = edge.weight() + findEdge(initialBag, leastNode).weight();
-                            Edge shortCut = new Edge(startNode, leastNode, shortcutWeight);
-                            G.addEdge(shortCut);
-                            String edgeString = startNode + " " + leastNode + " " + shortcutWeight;
-                            G.writeEdge(edgeString);
+                            // int shortcutWeight = edge.weight() + findEdge(initialBag, leastNode).weight();
+                            // Edge shortCut = new Edge(startNode, leastNode, shortcutWeight);
+                            // G.addEdge(shortCut);
+                            // String edgeString = startNode + " " + leastNode + " " + shortcutWeight;
+                            // G.writeEdge(edgeString);
 
+                            //Find value of edge in question and add the value of edge from least node to s
+                            int shortCutWeight = edge.weight() + findEdge(initialBag, leastNode).weight();
+                            //Create and add edge
+                            Edge shortCut = new Edge(leastNode, startNode, shortCutWeight);
+                                G.addEdge(shortCut);
+                                //print edgeString
+                                String edgeString = startNode + " " + leastNode + " " + shortCutWeight;
+                                G.writeEdge(edgeString);
                         }
 
                         // i edit between these two 2)//
@@ -115,11 +137,18 @@ public class LocalDijkstra4 {
                 }
                     nodeCounter++;
                 }
+
                 //Fill minpq from least node
                 fillMinPq(leastNode);
             }
             reset();
         }
+
+        // if(insertEdges){
+        //     for(Edge edge : initialBag){
+        //         //Delete edge
+        //     }
+        // }
         //return
         return counter-initialBag.size(); 
     }
