@@ -28,7 +28,7 @@ public class ContractionHierarchy {
         createContractionHierarchy();
         lazyUpdate();
         graph.setRankArray(rank);
-        // graph.writeRankArray(rank);
+        // graph.writeRankArray(graph.getRankArray());
     }
 
     //Make a PQ with all nodes not contracted yet

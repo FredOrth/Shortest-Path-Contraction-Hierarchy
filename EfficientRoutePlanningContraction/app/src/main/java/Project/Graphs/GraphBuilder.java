@@ -64,6 +64,7 @@ public class GraphBuilder {
     public static EdgeWeightedGraph addShortcuts(EdgeWeightedGraph graph, String shortcutsFilePath) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(shortcutsFilePath))) {
             String line;
+            // int counter = 0;
             while ((line = reader.readLine()) != null) {
                 
                 String[] parts = line.split("\\s+"); // Split by whitespace
@@ -79,6 +80,11 @@ public class GraphBuilder {
                 Vertex sourceVertex = graph.getVertexById(source);
                 Vertex targetVertex = graph.getVertexById(target);
                 Edge shortcutEdge = new Edge(sourceVertex, targetVertex, weight);
+                // if (counter==0 || counter ==1 || counter== 2) 
+                // {
+                //     counter++;
+                //     System.out.println("adding edge between vertex: " + sourceVertex.getVertexId() + " and " + targetVertex.getVertexId() + " with weight: " + weight);
+                // }
                 graph.addEdge(shortcutEdge);
             }
         }

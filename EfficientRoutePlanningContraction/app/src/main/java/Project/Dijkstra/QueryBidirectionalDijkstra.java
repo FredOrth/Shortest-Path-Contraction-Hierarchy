@@ -123,6 +123,8 @@ public class QueryBidirectionalDijkstra {
         int V = distToS.length;
         if (v < 0 || v >= V)
             throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V-1));
+
+        assert v == this.G.getVertex(0).getVertexIndex();
     }
 
     public int getCounterRelaxed(){

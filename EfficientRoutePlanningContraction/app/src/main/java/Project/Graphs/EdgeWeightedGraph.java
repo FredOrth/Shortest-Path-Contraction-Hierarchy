@@ -95,9 +95,31 @@ import java.util.NoSuchElementException;
         
      }
 
-     public void setRankArray(int[] rankArray){
-        this.rankArray=rankArray;
-     }
+     public void setRankArray(int[] rank) {
+        if (rank.length != this.V()) {
+            throw new IllegalArgumentException("Rank array size does not match the number of vertices in the graph");
+        }
+        rankArray = new int[this.V()];
+    
+        for (int i = 0; i < rank.length; i++) {
+            this.rankArray[i] = rank[i];
+            Vertex vertex = this.getVertex(i); // Retrieve vertex by index
+            if (vertex != null) {
+                vertex.setRank(rank[i]); // Assign rank to vertex
+            }
+        }
+    }
+
+    public boolean assertRankArray(int[] rank){
+
+        for (int i = 0; i < rankArray.length; i++) {
+            if (!(rankArray[i] == rank[i])) {
+                return false;
+            }
+            
+        }
+        return true;
+    }
 
 
      public int[] getRankArray(){
@@ -218,8 +240,8 @@ import java.util.NoSuchElementException;
         }
      }
 
-     public int[] readRankArrayFromFile(String dir){
-                    int[] rank = new int[this.V]; // hopefully getting it from graph, should work
+     public int[] readRankArrayFromFile(String dir, int vertexNumbers){
+                    int[] rank = new int[vertexNumbers]; // hopefully getting it from graph, should work
             try (BufferedReader reader = new BufferedReader(new FileReader(dir))) {
                 for (int i = 0; i < V; i++) {
                     String line = reader.readLine();
@@ -302,6 +324,13 @@ import java.util.NoSuchElementException;
              s.append(NEWLINE);
          }
          return s.toString();
+     }
+
+     public void printFirstTenRanks(){
+        for (int i = 0; i < 10; i++) {
+            System.out.println(rankArray[i]);
+        }
+
      }
  
      /**

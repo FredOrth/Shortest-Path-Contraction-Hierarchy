@@ -32,8 +32,10 @@ public class Main {
                     ContractionHierarchy cont = new ContractionHierarchy(graph);
                     Long end1 = System.nanoTime();
                     System.out.println((end1-start1)/1_000_000_000.0);
-                    // QueryBidirectionalDijkstra qDijkstra = new QueryBidirectionalDijkstra(graph);
-                    // qDijkstra.computeShortestPath(0, 0)
+                    QueryBidirectionalDijkstra qDijkstra = new QueryBidirectionalDijkstra(graph);
+                    DijkstraUndirectedSP dijkstra = new DijkstraUndirectedSP(graph);
+                    System.out.println(qDijkstra.computeShortestPath(graph.getVertex(1).getVertexIndex(), graph.getVertex(100).getVertexIndex()));
+                    System.out.println(dijkstra.computeShortestPath(graph.getVertex(1).getVertexIndex(), graph.getVertex(100).getVertexIndex()));
                 }
                 else if(args[0].equals("Dijkstra")){
 
@@ -72,28 +74,52 @@ public class Main {
 
                     //Need to fix how to give the graph int[] rank
 
-                    int[] rank = graph.readRankArrayFromFile("/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ranks.txt");
                     EdgeWeightedGraph contractedGraph = null;
                     try {
                         contractedGraph =  GraphBuilder.addShortcuts(graph, "/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/shortcuts4.graph");
                     } catch (Exception e) {
                         System.out.println("contracted graph not instantiated");
                     }
+                    int[] rank = graph.readRankArrayFromFile("/Users/frederikkolbel/ITU/Third semester/Applied Algorithms/Hand-ins/Hand-in_3/Git folder/AppliedAlgorithmsAssignment3/EfficientRoutePlanningContraction/app/src/main/resources/ranks.txt",graph.V());
+                    assert rank!=null;
+
                     contractedGraph.setRankArray(rank);
+                    System.out.println(contractedGraph.assertRankArray(rank));
+
+                    // contractedGraph.printFirstTenRanks();
                     
-                    QueryBidirectionalDijkstra spGraph = new QueryBidirectionalDijkstra(contractedGraph);
-                    System.out.println(contractedGraph.E());
+
+                    // for (int index = 0; index < 10; index++) {
+                    //     System.out.println(contractedGraph.getVertex(index).getRank());
+                    // }
+                    
+                    QueryBidirectionalDijkstra queryDijkstra = new QueryBidirectionalDijkstra(contractedGraph);
+                    DijkstraUndirectedSP dijks = new DijkstraUndirectedSP(contractedGraph);
+                    // System.out.println(contractedGraph.E());
                     Scanner scanner = new Scanner(System.in);
                     while (scanner.hasNextInt()) {
-                        long startNode = scanner.nextLong();
-                        long endNode = scanner.nextLong();
+                        // long startNode = scanner.nextLong();
+                        // long endNode = scanner.nextLong();
+
+                        int startNode = scanner.nextInt();
+                        int endNode = scanner.nextInt();
                         
                         long startTime = System.nanoTime();
-                        Double distance = spGraph.computeShortestPath(graph.getVertexById(startNode).getVertexIndex(), graph.getVertexById(endNode).getVertexIndex());
+                        // Double distance = spGraph.computeShortestPath(graph.getVertexById(startNode).getVertexIndex(), graph.getVertexById(endNode).getVertexIndex());
+                        Double distance = queryDijkstra.computeShortestPath(startNode,endNode);
                         long endTime = System.nanoTime();
     
                         double duration = (endTime - startTime) / 1_000_000_000.0;
-                    System.out.println(spGraph.getCounterRelaxed() + " " + duration + " " + distance);
+
+
+                        long startTime2 = System.nanoTime();
+                        // Double distance = spGraph.computeShortestPath(graph.getVertexById(startNode).getVertexIndex(), graph.getVertexById(endNode).getVertexIndex());
+                        Double distanceDijkstra = dijks.computeShortestPath(startNode,endNode);
+                        long endTime2 = System.nanoTime();
+    
+                        double duration2 = (endTime2 - startTime2) / 1_000_000_000.0;
+                    System.out.println("Query dijkstra " + queryDijkstra.getCounterRelaxed() + " " + duration + " " + distance);
+                    System.out.println("Normal Dijkstra " + dijks.getCounterRelaxed() + " " + duration2 + " " + distanceDijkstra);
                     }
                     scanner. close();
                 }
